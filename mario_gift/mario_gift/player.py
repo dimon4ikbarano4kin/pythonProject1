@@ -3,12 +3,13 @@ import pyganim
 import platform
 import monster
 
+count = 0
 MOVE_SPEED = 7
 WIDTH = 22
 HEIGHT = 32
 COLOR = "#000000"
 JUMP_POWER = 10
-GRAVITY = 0.35  # Сила, которая будет тянуть нас вниз
+GRAVITY = 0.35
 
 ANIMATION_DELAY = 1
 ANIMATION_LEFT = ('images/hero/l1.png',
@@ -124,13 +125,18 @@ class Player(pygame.sprite.Sprite):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
     def collide(self, xvel, yvel, platforms):
+        
+        count = 0
         for p in platforms:
             # если есть пересечение платформы с игроком
             if pygame.sprite.collide_rect(self, p):
 
                 if isinstance(p, platform.DieBlock) or isinstance(p, monster.Fire):
+
                     self.die()
+                    count += 1
                     break
+
                 elif isinstance(p, platform.Teleport):
                     self.teleporting(p.to_x, p.to_y)
                     break
@@ -174,9 +180,11 @@ class Player(pygame.sprite.Sprite):
             self.up = False
 
     def teleporting(self, x, y):
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.x = self.startX
+        self.rect.y = self.startY
 
     def die(self):
         pygame.time.wait(500)
         self.teleporting(self.startX, self.startY)
+
+
