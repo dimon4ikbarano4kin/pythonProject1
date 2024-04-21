@@ -125,20 +125,24 @@ class Player(pygame.sprite.Sprite):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
     def collide(self, xvel, yvel, platforms):
-        
-        count = 0
+
+        global count
         for p in platforms:
             # если есть пересечение платформы с игроком
+
             if pygame.sprite.collide_rect(self, p):
 
                 if isinstance(p, platform.DieBlock) or isinstance(p, monster.Fire):
 
                     self.die()
-                    count += 1
+
+
+
                     break
 
                 elif isinstance(p, platform.Teleport):
                     self.teleporting(p.to_x, p.to_y)
+
                     break
 
 
@@ -164,6 +168,9 @@ class Player(pygame.sprite.Sprite):
                     # и энергия прыжка пропадает
                     self.yvel = 0
 
+
+
+
     def move(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
             self.left = True
@@ -184,7 +191,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.startY
 
     def die(self):
+        global count
         pygame.time.wait(500)
+        count +=1
         self.teleporting(self.startX, self.startY)
+        print(count)
 
 

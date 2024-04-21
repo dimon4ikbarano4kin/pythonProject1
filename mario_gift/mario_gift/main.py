@@ -42,14 +42,7 @@ def main():
 
     main_camera = camera.Camera(lvl_1.width, lvl_1.height)
 
-    font = pygame.font.SysFont("microsofttail", 32)
-    BLACK = (255,255,255)
-    WHITE = (0,0,0)
-    RED = (255,0,0)
-    GREEN = (0,255,0)
-    follow1 = font.render("Deaths:", 1, BLACK, WHITE)
-    follow2 = font.render(str(player.count), 1, BLACK, WHITE)
-    follow3 = font.render("Цель: добраться до портала", 1, RED, GREEN)
+
 
 
     while True:
@@ -58,7 +51,14 @@ def main():
             if event.type == pygame.QUIT:
                 raise SystemExit(0)
             hero.move(event)
-
+        font = pygame.font.SysFont("microsofttail", 32)
+        BLACK = (255, 255, 255)
+        WHITE = (0, 0, 0)
+        RED = (255, 0, 0)
+        GREEN = (0, 255, 0)
+        follow1 = font.render("Смертей:", 1, BLACK, WHITE)
+        follow2 = font.render(str(player.count), 1, BLACK, WHITE)
+        follow3 = font.render("Цель: добраться до портала", 1, RED, GREEN)
 
         window.blit(bg, (0, 0))
         hero.update(lvl_1.platforms)
@@ -66,7 +66,7 @@ def main():
         main_camera.update(hero)
 
         for entity in entities:
-            window.blit(follow1, (700, 0))
+            window.blit(follow1, (680, 0))
             window.blit(follow2, (785,0))
             window.blit(follow3, (0, 0))
             window.blit(entity.image, main_camera.apply(entity))
@@ -74,7 +74,7 @@ def main():
         animated_entities.update()
         monsters.update(lvl_1.platforms)
         pygame.display.update()
-
+        pygame.display.flip()
 
 
 
